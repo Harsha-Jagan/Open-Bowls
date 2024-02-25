@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "110655486332",
+    "project_id": "gdsc-2024-utd-openarms",
+    "storage_bucket": "gdsc-2024-utd-openarms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110655486332:android:c68af267f6fead1f62ccf9",
+        "android_client_info": {
+          "package_name": "com.example.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtRFPD5GMw1np94yxWJW8zv0_jUk0Y6oI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
