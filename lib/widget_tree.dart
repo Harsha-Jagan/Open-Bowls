@@ -17,7 +17,6 @@ class WidgetTree extends StatefulWidget {
 class _WidgetTreeState extends State<WidgetTree> {
   int currentPage = 0;
   List<Widget> pages = [
-    const HomePage(),
     const MealPreferences(),
     const DonationCentersMapPage(),
     const AssistanceProgramsPage(),
@@ -30,7 +29,6 @@ class _WidgetTreeState extends State<WidgetTree> {
       body: pages.elementAt(currentPage),
       bottomNavigationBar: NavigationBar(
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(icon: Icon(Icons.food_bank), label: 'Recipes'),
           NavigationDestination(icon: Icon(Icons.map), label: 'Find Food'),
           NavigationDestination(icon: Icon(Icons.help), label: 'Resources'),

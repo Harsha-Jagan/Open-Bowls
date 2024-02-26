@@ -55,12 +55,15 @@ exports.prompt = onRequest(async (request, response) => {
   });
   
   // Extract meal preferences from the request
-  const { protein, budget, peopleToFeed, hasFridge, hasStove } = request.body;
+  const reqBody = request.body;
 
   // Construct a prompt using the meal preferences
-  const prompt = `Suggest 5 meal options for ${peopleToFeed} people with a budget of ${budget}, 
-  preferring ${protein} as the protein source. ${hasFridge ? "Has access to a fridge." : ""} 
-  ${hasStove ? "Has access to a stove." : ""}. Respond in the following json format only.
+  const prompt = `Suggest 5 meal options for a person with low income living in Dallas with the following profile: 
+  ${JSON.stringify(reqBody)}. Each meal option you come up with should have a cost that is exactly the budget provided. 
+  You must taken into consideration the available utensils and kitchen appliances available for the user when coming up with the meal options. 
+  You should also take into account the number of people this meal is for, and show the calories and nutrition for the meal accordingly. 
+  You should also create meal options that are easy to prepare and can be made within a very reasonable amount of time by a begineer cook. 
+  Respond in the following json format only. The values are strings and need to be in double quotes.
   {
     "mealOptions": [
       "meal1": {
@@ -74,6 +77,8 @@ exports.prompt = onRequest(async (request, response) => {
     ]
   }
   `;
+
+  console.log('this is my prompt', prompt);
   
   const req: { contents: { role: string; parts: { text: string }[] }[] } = {
     contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -113,7 +118,7 @@ async function generateContent(model: any, prompt: any) {
 }
 
 exports.getRecipe = onRequest(async (request, response) => {
-  const { mealName } = request.body; // Assume mealName is passed in the request
+  const reqBody = request.body; // Assume mealName is passed in the request
   const projectId = process.env.GCLOUD_PROJECT_ID as string; // Assuming GCLOUD_PROJECT is a String env var
   const vertexAi = new VertexAI({ project: projectId, location });
 
@@ -122,13 +127,19 @@ exports.getRecipe = onRequest(async (request, response) => {
 
   try {
     const prompt = `
-      Respond with a list of ingredients needed for cooking ${mealName}, and the step by step instructions to cook it. 
+      You are an expert chef who specializes in creating highly nutritious and tasty food. 
+      Your client is a person in poverty from Dallas, and needs your help to create a set of ingredients and a 
+      list of instructions (recipe) for creating a meal. You can assume that the client only has a stove, and few pots and pans. The details of the person's profile, 
+      and the meal name is included in here: ${JSON.stringify(reqBody)}. 
+      Respond with a list of ingredients needed for cooking, and the step by step instructions to cook it. 
       Respond in json format only. Structure it in the following format:
       {
-        "ingredients": [list of ingredients for cooking ${mealName}],
-        "cookingInstructions": [step by step instructions in a list for cooking ${mealName}]
+        "ingredients": [list of ingredients for cooking the meal],
+        "cookingInstructions": [step by step instructions in a list for cooking the meal]
       }
     `
+
+    console.log('this is my prompt2', prompt);
     const res = await generateContent(generativeModel, prompt);
     console.log(res);
     response.send(res);

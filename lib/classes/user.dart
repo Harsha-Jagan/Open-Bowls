@@ -39,4 +39,21 @@ class CustomerData {
       this.useSubstance,
       this.weight,
       this.height});
+
+  Map<String, dynamic> toJson() => {
+        'age': age,
+        'durationHomeless': durationHomeless,
+        'fname': fname,
+        'gender': gender,
+        'hasChild': hasChild,
+        'hasDisabilities': hasDisabilities,
+        'hasPets': hasPets,
+        'height': height,
+        'isVeteran': isVeteran,
+        'lname': lname,
+        'race': race,
+        'sexualOrientation': sexualOrientation,
+        'useSubstance': useSubstance,
+        'weight': weight,
+      };
 }

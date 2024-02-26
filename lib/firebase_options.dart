@@ -56,7 +56,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyDtRFPD5GMw1np94yxWJW8zv0_jUk0Y6oI',
     appId: '1:110655486332:android:c68af267f6fead1f62ccf9',
     messagingSenderId: '110655486332',
-    projectId: 'gdsc-2024-utd-openarms',
-    storageBucket: 'gdsc-2024-utd-openarms.appspot.com',
+    projectId: 'gdsc-2024-utd-openbowls',
+    storageBucket: 'gdsc-2024-utd-openbowls.appspot.com',
   );
 }

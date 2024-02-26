@@ -24,7 +24,7 @@ class _ResgisterState extends State<Register> {
       backgroundColor: const Color.fromARGB(255, 184, 195, 216),
       appBar: AppBar(
         title: const Text(
-          "OpenArms Sign Up",
+          "openbowls Sign Up",
         ),
         backgroundColor: const Color.fromARGB(255, 184, 195, 216),
       ),

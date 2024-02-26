@@ -16,7 +16,7 @@ class _AuthenticateState extends State<Authenticate> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 184, 195, 216),
         appBar: AppBar(
-          title: const Text("OpenArms Login or Sign Up"),
+          title: const Text("openbowls Login or Sign Up"),
           backgroundColor: const Color.fromARGB(255, 184, 195, 216),
         ),
         body: Center(

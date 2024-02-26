@@ -19,10 +19,34 @@ class DonationCenter {
 
 final List<DonationCenter> donationCenters = [
   DonationCenter(
-    name: 'Center 1',
-    details: 'Details about Center 1',
-    latitude: 37.77483,
-    longitude: -122.41942,
+    name: 'North Texas Food Bank',
+    details: 'Food bank',
+    latitude: 33.00709754281487,
+    longitude: -96.7596757126027,
+  ),
+  DonationCenter(
+    name: 'Seven Loaves Food Pantry',
+    details: 'Food bank',
+    latitude: 33.0207798397071,
+    longitude: -96.82101812205197,
+  ),
+  DonationCenter(
+    name: 'Comet Cupboard',
+    details: 'Food bank',
+    latitude: 32.9887147021269,
+    longitude: -96.74714223104269,
+  ),
+  DonationCenter(
+    name: 'City House',
+    details: 'Homeless shelter',
+    latitude: 33.0309696986485,
+    longitude: -96.70361793104271,
+  ),
+  DonationCenter(
+    name: 'Agape Resource & Assistance Center, Inc.',
+    details: 'Non-profit organization',
+    latitude: 33.022734716836396,
+    longitude: -96.70111579929966,
   ),
   // Add more centers here
 ];
@@ -35,8 +59,8 @@ class DonationCentersMapPage extends StatefulWidget {
 }
 
 class _DonationCentersMapPageState extends State<DonationCentersMapPage> {
-  final LatLng _initialCameraPosition =
-      const LatLng(37.77483, -122.41942); // Example initial position
+  final LatLng _initialCameraPosition = const LatLng(
+      33.00709754281487, -96.7596757126027); // Example initial position
   late GoogleMapController _controller;
 
   @override

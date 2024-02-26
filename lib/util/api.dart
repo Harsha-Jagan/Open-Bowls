@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:frontend/classes/user.dart';
+import 'package:frontend/classes/userdata.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -11,13 +15,18 @@ String cleanJson(String responseBody) {
   return cleanResponse;
 }
 
-Future<Map<String, dynamic>> fetchRecipeDetails(String mealName) async {
+Future<Map<String, dynamic>> fetchRecipeDetails(
+    String mealName, CustomerData? userProfile) async {
   final url = Uri.parse(
-      'http://10.0.2.2:5001/gdsc-2024-utd-openarms/us-central1/getRecipe');
+      'http://10.0.2.2:5001/gdsc-2024-utd-openbowls/us-central1/getRecipe');
+
+  final Map<String, dynamic> userProfileJson = userProfile!.toJson();
+  print("$userProfileJson | debug2");
+
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
-    body: json.encode({'mealName': mealName}),
+    body: json.encode({'mealName': mealName, 'profile': userProfileJson}),
   );
 
   if (response.statusCode == 200) {
@@ -40,9 +49,15 @@ Future<List<MealOption>> sendMealPreferences({
   required int peopleToFeed,
   required bool hasFridge,
   required bool hasStove,
+  required String existingIngredients,
+  required bool hasPans, // Add this parameter
+  required bool hasPots,
+  required CustomerData? userProfile,
 }) async {
   final url = Uri.parse(
-      'http://10.0.2.2:5001/gdsc-2024-utd-openarms/us-central1/prompt');
+      'http://10.0.2.2:5001/gdsc-2024-utd-openbowls/us-central1/prompt');
+  final Map<String, dynamic> userProfileJson = userProfile!.toJson();
+  print("$userProfileJson | debug");
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
@@ -52,6 +67,10 @@ Future<List<MealOption>> sendMealPreferences({
       'peopleToFeed': peopleToFeed,
       'hasFridge': hasFridge,
       'hasStove': hasStove,
+      'existingIngredients': existingIngredients,
+      'hasPans': hasPans,
+      'hasPots': hasPots,
+      'profile': userProfileJson,
     }),
   );
 

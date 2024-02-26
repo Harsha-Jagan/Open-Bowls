@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:frontend/classes/user.dart';
+import 'package:frontend/pages/services/database.dart';
+import 'package:provider/provider.dart';
 
+import '../classes/userdata.dart';
 import '../pages/recipe_page.dart';
 import '../util/api.dart';
 import '../util/class.dart';
@@ -16,36 +21,81 @@ class MealOptionsCarousel extends StatefulWidget {
 }
 
 class _MealOptionsCarouselState extends State<MealOptionsCarousel> {
+  CustomerData? userProfile;
+
+  Future<void> _fetchUserProfile() async {
+    final userProvider = Provider.of<CustomerData>(context);
+    print(userProvider.uid);
+
+    setState(() {
+      userProfile = userProvider;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserProfile();
+    final person = Provider.of<Customer?>(context,
+        listen: false); // listen: false is important here
+    if (person != null) {
+      // Using a listener to the stream
+      DbService(uid: person.uid).dataFromFS.listen((CustomerData custdata) {
+        if (mounted) {
+          SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {
+                userProfile = custdata;
+              }));
+          print('is this getting called hello');
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select Your Meal'),
-      ),
-      body: CarouselSlider.builder(
-        itemCount: widget.mealOptions.length,
-        itemBuilder: (context, index, realIndex) {
-          final mealOption = widget.mealOptions[index];
-          return GestureDetector(
-            onTap: () {
-              // Call the function to submit the selected meal option
-              submitMealSelection(mealOption.name);
-            },
-            child: MealCard(meal: mealOption),
-          );
-        },
-        options: CarouselOptions(
-          enlargeCenterPage: true,
-          enableInfiniteScroll: false,
-          autoPlay: false,
-        ),
-      ),
-    );
+    final person = Provider.of<Customer?>(context);
+    return StreamBuilder<CustomerData>(
+        stream: DbService(uid: person!.uid).dataFromFS,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            CustomerData? custdata = snapshot.data;
+            String var1 = custdata!.fname.toString();
+            String var2 = custdata.lname.toString();
+            String var3 = custdata.gender.toString();
+            int? var4 = custdata.age;
+
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Select Your Meal'),
+              ),
+              body: CarouselSlider.builder(
+                itemCount: widget.mealOptions.length,
+                itemBuilder: (context, index, realIndex) {
+                  final mealOption = widget.mealOptions[index];
+                  return GestureDetector(
+                    onTap: () {
+                      // Call the function to submit the selected meal option
+                      submitMealSelection(mealOption.name);
+                    },
+                    child: MealCard(meal: mealOption),
+                  );
+                },
+                options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: false,
+                  autoPlay: false,
+                ),
+              ),
+            );
+          } else {
+            return const Scaffold();
+          }
+        });
   }
 
   Future<void> submitMealSelection(String mealName) async {
     try {
-      final recipeDetails = await fetchRecipeDetails(mealName);
+      final recipeDetails = await fetchRecipeDetails(mealName, userProfile);
       if (recipeDetails.isNotEmpty) {
         Navigator.push(
           context,

@@ -21,7 +21,7 @@ class _LogInState extends State<LogIn> {
       backgroundColor: Color.fromARGB(255, 184, 195, 216),
       appBar: AppBar(
         title: Text(
-          "OpenArms  Login",
+          "openbowls  Login",
           textAlign: TextAlign.right,
         ),
         backgroundColor: Color.fromARGB(255, 184, 195, 216),
