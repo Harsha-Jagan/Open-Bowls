@@ -1,6 +1,15 @@
-# frontend
+# Open Bowls
 
-A new Flutter project.
+Instructions on running the project:
+1. git pull
+2. flutter pub get
+3. Copy paste .env file within functions/ with the required Gemini API Key
+4. Add Google Maps api key within Android Manifest file
+5. cd functions/
+6. npm install
+7. npm run serve (runs lambda functions locally)
+8. Open second terminal
+9. flutter run
 
 ## Getting Started
 
